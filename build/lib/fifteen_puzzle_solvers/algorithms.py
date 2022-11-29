@@ -61,46 +61,6 @@ class BreadthFirst(Strategy):
         self.solution = path
 
 
-# TO DO
-class BackwordsBreadthFirst(Strategy):
-    def __init__(self, initial_puzzle):
-        """
-        :param initial_puzzle: Puzzle
-        """
-        self.start = initial_puzzle
-
-    def __str__(self):
-        return 'Breadth First'
-
-    def solve_puzzle(self):
-        queue = [[self.start]]  # list of lists with Puzzle objects. Each sublist is a path to be explored
-        path = []  # the current path that we want to explore
-        expanded = []  # keeps track on the positions that have already been explored
-        num_expanded_nodes = 0  # counter used for performance analysis
-
-        while queue:
-            path = queue[0]  # take the first path - this is a list with Puzzle objects
-            queue.pop(0)  # dequeue (FIFO)
-            end_node = path[-1]  # the last position in the path that we are exploring
-
-            if end_node.position in expanded:  # avoid circular logic
-                continue
-
-            for move in end_node.get_moves():  # loop through all the possible moves for the current position
-                if move.position in expanded:  # avoid circular logic
-                    continue
-                queue.append(path + [move])  # add the path with the new positions at the end of the queue
-
-            expanded.append(end_node.position)  # all the moves for this positions are now in the queue
-            num_expanded_nodes += 1
-
-            if end_node.position == end_node.PUZZLE_END_POSITION:  # the last position in our path is the end position
-                break
-
-        # set base class values
-        self.num_expanded_nodes = num_expanded_nodes  # increment the performance counter
-        self.solution = path
-
 class AStar(Strategy):
     HEURISTIC_MANHATTAN_DISTANCE, HEURISTIC_MISPLACED = 'manhattan_distance', 'misplaced'
     HEURISTIC_CONSTANTS = [HEURISTIC_MANHATTAN_DISTANCE, HEURISTIC_MISPLACED]
